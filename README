@@ -1,0 +1,19 @@
+
+
+Graphite is great.
+
+Collectd has piles of plugins.
+
+Let's glue them together.
+
+In collectd.conf, put this:
+
+<Plugin write_http>
+  <URL "http://monitor:3012/post-collectd">
+  </URL>
+</Plugin>
+
+Then run this little javascript bit in node. It will take data from collectd
+and ship it to graphite.
+
+This is a work in progress.
