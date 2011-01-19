@@ -23,5 +23,5 @@ Future?
 - Support the binary protocol collectd uses for the network plugin.
 - Use node-ffi to call collectd plugins (as collectd would) and ship out
   graphite (or any other protocol!)
-- Implement as collectd plugin? The collectd plugin docs say "do not use this
-  api" and also require GPL2, so maybe this route isn't worht it.
+- Implement as collectd plugin? The collectd plugin docs basically "do not use
+  this api" and also requires GPL2, so maybe this route isn't the right one.
