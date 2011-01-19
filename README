@@ -16,4 +16,5 @@ In collectd.conf, put this:
 Then run this little javascript bit in node. It will take data from collectd
 and ship it to graphite.
 
-This is a work in progress.
+This is a work in progress. It also may not stay in node/javascript since I
+don't really care for the platform.
