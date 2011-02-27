@@ -1,5 +1,4 @@
 
-
 Graphite is great.
 
 Collectd has piles of plugins.
@@ -18,7 +17,10 @@ system to target as a command-line parameter. It will take data from collectd
 and ship it to graphite.
 
 This is a work in progress. It also may not stay in node/javascript since I
-am not really sold on the platform.
+am not really sold on the platform. I have only run this on node 0.2.0 and
+haven't bothered upgrading due to the ever volatile moving target that nodejs
+is. If you find it does not work in newer versions, I'm happy to take patches
+to resolve such a problem.
 
 Future?
 - Support the binary protocol collectd uses for the network plugin.
