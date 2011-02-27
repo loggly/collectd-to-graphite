@@ -21,7 +21,7 @@ var net = require("net");
 var assert = require("assert");
 
 try {
-  var graphite_connection = net.createConnection(2003, host="monitor");
+  var graphite_connection = net.createConnection(2003, host=process.argv[2]);
 } catch (error) {
   throw error;
 }

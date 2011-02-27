@@ -13,7 +13,8 @@ In collectd.conf, put this:
   </URL>
 </Plugin>
 
-Then run this little javascript bit in node. It will take data from collectd
+Then run this little javascript bit in node, with the hostname of the graphite
+system to target as a command-line parameter. It will take data from collectd
 and ship it to graphite.
 
 This is a work in progress. It also may not stay in node/javascript since I
