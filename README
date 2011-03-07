@@ -16,6 +16,10 @@ Then run this little javascript bit in node, with the hostname of the graphite
 system to target as a command-line parameter. It will take data from collectd
 and ship it to graphite.
 
+Versions of nodejs reported to work:
+- 0.2.0
+- 0.4.0
+
 This is a work in progress. It also may not stay in node/javascript since I
 am not really sold on the platform. I have only run this on node 0.2.0 and
 haven't bothered upgrading due to the ever volatile moving target that nodejs
