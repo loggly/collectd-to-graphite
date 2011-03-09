@@ -12,7 +12,7 @@ In collectd.conf, put this:
   </URL>
 </Plugin>
 
-Then run this little javascript bit in node, with the hostname of the graphite
+Then run collectd-graphite-proxy.js in node, with the hostname of the graphite
 system to target as a command-line parameter. It will take data from collectd
 and ship it to graphite.
 
@@ -22,7 +22,7 @@ Versions of nodejs reported to work:
 
 This is a work in progress. It also may not stay in node/javascript since I
 am not really sold on the platform. I have only run this on node 0.2.0 and
-haven't bothered upgrading due to the ever volatile moving target that nodejs
+haven't bothered upgrading due to the ever volatile, moving target that nodejs
 is. If you find it does not work in newer versions, I'm happy to take patches
 to resolve such a problem.
 
