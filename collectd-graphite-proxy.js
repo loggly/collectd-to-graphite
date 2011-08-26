@@ -15,10 +15,35 @@
  * This code below will then convert the PUTVAL statements to graphite metrics
  * and ship them to 'monitor:2003'
  */
-
 var http = require("http");
 var net = require("net");
 var assert = require("assert");
+var fs = require('fs');
+
+var types = fs.readFileSync('./types.db', encoding='utf8').split("\n");
+
+var typesObj = new Object;
+
+var type_comments_re = /^#/;
+var type_cut_re = /^([^\s]+)\s+(.*)/;
+
+for (var i in types) {
+  if (!type_comments_re.exec(types[i])) {
+    typeSet = type_cut_re.exec(types[i])
+    if (!typeSet) { continue; }
+    for (var t=0;t < typeSet.length;t++) {
+      var name = typeSet[1];
+      typesObj[name] = new Array();
+      var eachType = typeSet[2].split(", ")
+      for (var u=0; u < eachType.length; u++){
+        var theName = eachType[u].split(":")[0];
+        typesObj[name].push(theName);
+      }
+    }
+  }
+}
+
+
 
 try {
   var graphite_connection = net.createConnection(2003, host=process.argv[2]);
@@ -33,23 +58,36 @@ graphite_connection.on("error", function() {
 });
 
 var request_handler = function(request, response) {
-  var putval_re = /^PUTVAL ([^ ]+)(?: ([^ ]+=[^ ]+)?) ([0-9]+)(:(?:-?[0-9.]+)+)/;
+  var putval_re = /^PUTVAL ([^ ]+)(?: ([^ ]+=[^ ]+)?) ([0-9.]+)(:.*)/;
   request.addListener("data", function(chunk) {
-    metrics = chunk.toString().split("\n")
+    metrics = chunk.toString().split("\n");
     for (var i in metrics) {
       var m = putval_re.exec(metrics[i]);
       if (!m) {
         continue;
       }
-      var name = m[1];
-      var options = m[2];
-      var time = m[3];
-      var value = m[4].replace(/:/, "");
+      var values = m[4].split(":");
 
-      name = "collectd." + name.replace(/\./g, "_").replace(/\//g, ".");
-      message = [name, value, time].join(" ")
-      console.log(message)
-      graphite_connection.write(message + "\n");
+      for (var v in values) {
+        
+        var name = m[1];
+        var options = m[2];
+        var time = m[3];
+
+        if ( v == 0 ) {
+          continue;
+        }
+
+        name = "agents." + name.replace(/\./g, "_").replace(/\//g, ".");
+        if ( values.length > 2 ) {
+          var metric = name.split(".")[3];
+          name = name + "_" + typesObj[metric][v - 1];
+        }
+        message = [name, values[v], time].join(" ");
+        graphite_connection.write(message + "\n");
+
+      }
+
     }
   });
 
